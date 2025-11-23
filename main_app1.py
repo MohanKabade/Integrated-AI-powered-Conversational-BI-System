@@ -89,9 +89,11 @@ def chat():
                 answer = {"type": "text", "content": "Please upload a file first."}
 
             chat_history[-1]["bot"] = answer
+            current_sql_query = answer.get("sql_query", None)
+
 
     return render_template("chat1.html", messages=chat_history,info_msg=None,
-        filename=current_filename,)
+        filename=current_filename,sql_query=current_sql_query)
 
 
 if __name__ == "__main__":
