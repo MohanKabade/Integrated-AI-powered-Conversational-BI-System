@@ -98,7 +98,7 @@ Be clear and concise.
 
 # ------------------ Example Usage ------------------
 if __name__ == "__main__":
-    api_key = "AIzaSyA7bYdd8uv0-dlc2YvwZKSnAD503itYe24"  # replace with your API key
+    api_key = "your_api_key"  # replace with your API key
     schema_file = "schema_registry.json"
 
     # 🔹 MySQL connection details
