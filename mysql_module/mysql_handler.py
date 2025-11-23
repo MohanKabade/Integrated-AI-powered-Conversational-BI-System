@@ -6,7 +6,7 @@ from .temp import is_sql_related, handle_greetings
 from .is_visulizable import is_visualizable
 from .temp3 import generate_and_save_plot
 
-API_KEY = "AIzaSyDzCzp7iFZhdbfZvCqUckEWp-o3hral23c"   # <- put your key here
+API_KEY = "your_api_key"   # <- put your key here
 DB_CONFIG = {
     "host": "127.0.0.1",
     "user": "root",
