@@ -1,0 +1,87 @@
+{
+    "ipl_matches": {
+        "table_name": "ipl_matches",
+        "columns": [
+            {
+                "name": "id",
+                "type": "INT"
+            },
+            {
+                "name": "city",
+                "type": "VARCHAR(24)"
+            },
+            {
+                "name": "date",
+                "type": "DATETIME"
+            },
+            {
+                "name": "season",
+                "type": "VARCHAR(17)"
+            },
+            {
+                "name": "matchnumber",
+                "type": "VARCHAR(28)"
+            },
+            {
+                "name": "team1",
+                "type": "VARCHAR(37)"
+            },
+            {
+                "name": "team2",
+                "type": "VARCHAR(37)"
+            },
+            {
+                "name": "venue",
+                "type": "VARCHAR(62)"
+            },
+            {
+                "name": "tosswinner",
+                "type": "VARCHAR(37)"
+            },
+            {
+                "name": "tossdecision",
+                "type": "VARCHAR(15)"
+            },
+            {
+                "name": "superover",
+                "type": "VARCHAR(14)"
+            },
+            {
+                "name": "winningteam",
+                "type": "VARCHAR(37)"
+            },
+            {
+                "name": "wonby",
+                "type": "VARCHAR(19)"
+            },
+            {
+                "name": "margin",
+                "type": "VARCHAR(15)"
+            },
+            {
+                "name": "method",
+                "type": "VARCHAR(14)"
+            },
+            {
+                "name": "player_of_match",
+                "type": "VARCHAR(27)"
+            },
+            {
+                "name": "team1players",
+                "type": "VARCHAR(181)"
+            },
+            {
+                "name": "team2players",
+                "type": "VARCHAR(184)"
+            },
+            {
+                "name": "umpire1",
+                "type": "VARCHAR(31)"
+            },
+            {
+                "name": "umpire2",
+                "type": "VARCHAR(31)"
+            }
+        ]
+    }
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conversational BI Chat</title>
+</head>
+<body>
+    <h1>Conversational BI Chat</h1>
+
+    {% if info_msg %}
+        <p><b>{{ info_msg }}</b></p>
+    {% endif %}
+
+    <a href="/">⬅ Upload another file</a>
+    <hr>
+
+    <div>
+        {% for msg in messages %}
+            <p><b>You:</b> {{ msg.user }}</p>
+
+            {% if msg.bot %}
+                {% if msg.bot.type == "text" %}
+                    <p><b>AI:</b> {{ msg.bot.content }}</p>
+                {% elif msg.bot.type == "image" %}
+                    <p><b>AI:</b></p>
+                    <img src="{{ url_for('static', filename=msg.bot.path) }}" alt="Generated chart" style="max-width:600px;">
+                {% endif %}
+            {% endif %}
+            <hr>
+        {% endfor %}
+    </div>
+
+    <form method="POST" action="/chat">
+        <input type="text" name="question" placeholder="Ask your question..." style="width:400px;" required>
+        <button type="submit">Ask</button>
+    </form>
+</body>
+</html>

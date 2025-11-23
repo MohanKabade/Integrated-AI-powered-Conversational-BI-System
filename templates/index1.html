@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Conversational BI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Inter", sans-serif;
+            background: #1f1f1f;
+            color: white;
+            height: 100vh;
+            display: flex;
+        }
+
+        /* Left About panel */
+        .left-panel {
+            width: 28%;
+            background: #2a2a2a;
+            padding: 40px 30px;
+            border-right: 1px solid #444;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left-panel h2 {
+            margin-top: 0;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .left-panel p {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        /* Right main area */
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 32px;
+        }
+
+        .title {
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #eaeaea;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 35px;
+        }
+
+        /* Big oval bar */
+        .chat-bar-wrapper {
+            background: #2b2b2b;
+            border-radius: 999px;
+            width: 70%;
+            max-width: 850px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #3b3b3b;
+        }
+
+        .upload-btn {
+            width: 42px;
+            height: 42px;
+            background: #10a37f;
+            border: none;
+            outline: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 26px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+
+        .upload-btn:hover {
+            background: #0e8c6f;
+        }
+
+        .hidden-file {
+            display: none;
+        }
+
+        .filename-pill {
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #3a3a3a;
+            font-size: 13px;
+            margin-right: 12px;
+            opacity: 0.6;
+            white-space: nowrap;
+        }
+
+        .ask-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #999;
+            font-size: 15px;
+        }
+
+        .ask-input:disabled {
+            color: #555;
+        }
+
+        .error {
+            margin-top: 16px;
+            color: #ff6b6b;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LEFT SECTION -->
+    <div class="left-panel">
+        <h2>About</h2>
+        <p>
+            AI powered Conversational BI system that lets you chat with your CSV/Excel data
+            and PDF/DOC documents. Upload a file and ask anything — summaries, insights, charts,
+            and more.
+        </p>
+    </div>
+
+    <!-- RIGHT SECTION -->
+    <div class="right-panel">
+        <div class="title">Chat with CSV / DOC</div>
+        <div class="subtitle">Upload a file to get started, then ask anything about your data.</div>
+
+        <form action="/" method="POST" enctype="multipart/form-data" style="width:100%; display:flex; justify-content:center;">
+            <div class="chat-bar-wrapper">
+                <!-- plus button opens file chooser and submits on change -->
+                <label for="fileInput" class="upload-btn">+</label>
+                <input id="fileInput" type="file" name="file" class="hidden-file" onchange="this.form.submit()">
+
+                <!-- filename placeholder (disabled state) -->
+                <div class="filename-pill">No file uploaded</div>
+
+                <!-- ask anything (disabled on index) -->
+                <input type="text" class="ask-input" placeholder="Ask anything..." disabled>
+            </div>
+        </form>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

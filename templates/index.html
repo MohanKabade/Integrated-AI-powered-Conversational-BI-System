@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unified Conversational BI</title>
+</head>
+<body>
+    <h1>AI Powered Conversational BI</h1>
+    <p>Upload a CSV / Excel for MySQL BI, or a PDF / DOC for document Q&A.</p>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    <form action="/" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit">Upload & Start Chat</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Conversational BI – Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Inter", sans-serif;
+            background: #1f1f1f;
+            color: white;
+            height: 100vh;
+            display: flex;
+        }
+
+        .left-panel {
+            width: 28%;
+            background: #2a2a2a;
+            padding: 40px 30px;
+            border-right: 1px solid #444;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left-panel h2 {
+            margin-top: 0;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .left-panel p {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 32px;
+        }
+
+        .title {
+            font-size: 30px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #eaeaea;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        .chat-bar-wrapper {
+            background: #2b2b2b;
+            border-radius: 999px;
+            width: 100%;
+            max-width: 900px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #3b3b3b;
+        }
+
+        .upload-btn {
+            width: 42px;
+            height: 42px;
+            background: #10a37f;
+            border: none;
+            outline: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 26px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+
+        .upload-btn:hover {
+            background: #0e8c6f;
+        }
+
+        .filename-pill {
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #3a3a3a;
+            font-size: 13px;
+            margin-right: 12px;
+            white-space: nowrap;
+            max-width: 220px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ask-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .ask-btn {
+            margin-left: 10px;
+            background: #10a37f;
+            border-radius: 25px;
+            border: none;
+            padding: 8px 18px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .ask-btn:hover {
+            background: #0e8c6f;
+        }
+
+        /* Chat area */
+        .chat-container {
+            margin-top: 20px;
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .user-msg {
+            background: #3a3f47;
+            margin-left: auto;
+        }
+
+        .bot-msg {
+            background: #444654;
+            margin-right: auto;
+        }
+
+        img.chart-img {
+            max-width: 420px;
+            border-radius: 12px;
+            margin-top: 4px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LEFT ABOUT -->
+    <div class="left-panel">
+        <h2>About</h2>
+        <p>
+            You are chatting with your uploaded file:
+            <strong>{{ filename if filename else "No file" }}</strong>.
+            Ask questions to get insights, summaries, and visualizations.
+        </p>
+    </div>
+
+    <!-- RIGHT CHAT SIDE -->
+    <div class="right-panel">
+        <div class="title">Chat with CSV / DOC</div>
+        <div class="subtitle">
+            File: <strong>{{ filename if filename else "No file selected" }}</strong>
+        </div>
+
+        <!-- Big oval bar: plus + filename + ask anything -->
+        <form method="POST" action="/chat1">
+            <div class="chat-bar-wrapper">
+                <!-- plus button: go back to index (upload again) -->
+                <button type="button" class="upload-btn" onclick="window.location.href='/'">+</button>
+
+                {% if filename %}
+                    <div class="filename-pill" title="{{ filename }}">{{ filename }}</div>
+                {% endif %}
+
+                <input type="text" name="question" class="ask-input" placeholder="Ask anything about this file..." required>
+                <button type="submit" class="ask-btn">Send</button>
+            </div>
+        </form>
+
+        <!-- Messages -->
+        <div class="chat-container" id="chatBox">
+            {% if info_msg %}
+                <div class="message bot-msg"><b>{{ info_msg }}</b></div>
+            {% endif %}
+
+            {% for msg in messages %}
+                <div class="message user-msg">
+                    {{ msg.user }}
+                </div>
+
+                {% if msg.bot %}
+                    {% if msg.bot.type == "text" %}
+                        <div class="message bot-msg">{{ msg.bot.content }}</div>
+                    {% elif msg.bot.type == "image" %}
+                        <div class="message bot-msg">
+                            <img src="{{ url_for('static', filename=msg.bot.path) }}" class="chart-img">
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <script>
+            // auto-scroll to bottom
+            const chatBox = document.getElementById("chatBox");
+            if (chatBox) {
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        </script>
+    </div>
+
+</body>
+</html>
