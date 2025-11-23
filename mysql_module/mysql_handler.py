@@ -6,7 +6,7 @@ from .temp import is_sql_related, handle_greetings
 from .is_visulizable import is_visualizable
 from .temp3 import generate_and_save_plot
 
-API_KEY = "AIzaSyCwcMj-gspG4dRlmBhMFDFmF_7E_L-yPXo"   # <- put your key here
+API_KEY = "AIzaSyDzCzp7iFZhdbfZvCqUckEWp-o3hral23c"   # <- put your key here
 DB_CONFIG = {
     "host": "127.0.0.1",
     "user": "root",
@@ -69,13 +69,13 @@ def answer_mysql_question(user_question):
                 output_path=image_path
             )
 
-            return {"type": "image", "path": image_filename}
+            return {"type": "image", "path": image_filename,"sql_query": sql_query}
 
         else:
             # Step 4: result → natural language
             nl_answer = sql_result_to_nl(df, user_question, API_KEY)
-            return {"type": "text", "content": nl_answer}
+            return {"type": "text", "content": nl_answer,"sql_query": sql_query}
 
     # 2) Otherwise, treat it as greeting / small talk
     nl_answer = handle_greetings(user_question, API_KEY)
-    return {"type": "text", "content": nl_answer}
+    return {"type": "text", "content": nl_answer,"sql_query": None}

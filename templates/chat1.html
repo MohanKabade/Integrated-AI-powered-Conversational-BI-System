@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Conversational BI – Chat</title>
@@ -125,6 +126,7 @@
         .ask-btn:hover {
             background: #0e8c6f;
         }
+        
 
         /* Chat area */
         .chat-container {
@@ -160,12 +162,42 @@
             margin-top: 4px;
         }
 
+        .sql-block {
+            margin-top: 35px;
+            padding: 15px;
+            background: #1f1f1f;
+            border-radius: 10px;
+            border: 1px solid #444;
+        }
+
+        .sql-block h3 {
+            margin: 0 0 10px 0;
+            font-size: 15px;
+        }
+
+        .sql-box {
+            background: #000;
+            padding: 10px;
+            border-radius: 8px;
+            color: #00e676;
+            font-size: 13px;
+            white-space: pre-wrap;
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- LEFT ABOUT -->
@@ -176,6 +208,15 @@
             <strong>{{ filename if filename else "No file" }}</strong>.
             Ask questions to get insights, summaries, and visualizations.
         </p>
+        <div class="sql-block">
+            <h3>Generated SQL</h3>
+            {% if sql_query %}
+            <pre class="sql-box">{{ sql_query }}</pre>
+            {% else %}
+            <p>No SQL generated yet.</p>
+            {% endif %}
+        </div>
+
     </div>
 
     <!-- RIGHT CHAT SIDE -->
@@ -192,10 +233,11 @@
                 <button type="button" class="upload-btn" onclick="window.location.href='/'">+</button>
 
                 {% if filename %}
-                    <div class="filename-pill" title="{{ filename }}">{{ filename }}</div>
+                <div class="filename-pill" title="{{ filename }}">{{ filename }}</div>
                 {% endif %}
 
-                <input type="text" name="question" class="ask-input" placeholder="Ask anything about this file..." required>
+                <input type="text" name="question" class="ask-input" placeholder="Ask anything about this file..."
+                    required>
                 <button type="submit" class="ask-btn">Send</button>
             </div>
         </form>
@@ -203,23 +245,23 @@
         <!-- Messages -->
         <div class="chat-container" id="chatBox">
             {% if info_msg %}
-                <div class="message bot-msg"><b>{{ info_msg }}</b></div>
+            <div class="message bot-msg"><b>{{ info_msg }}</b></div>
             {% endif %}
 
             {% for msg in messages %}
-                <div class="message user-msg">
-                    {{ msg.user }}
-                </div>
+            <div class="message user-msg">
+                {{ msg.user }}
+            </div>
 
-                {% if msg.bot %}
-                    {% if msg.bot.type == "text" %}
-                        <div class="message bot-msg">{{ msg.bot.content }}</div>
-                    {% elif msg.bot.type == "image" %}
-                        <div class="message bot-msg">
-                            <img src="{{ url_for('static', filename=msg.bot.path) }}" class="chart-img">
-                        </div>
-                    {% endif %}
-                {% endif %}
+            {% if msg.bot %}
+            {% if msg.bot.type == "text" %}
+            <div class="message bot-msg">{{ msg.bot.content | safe }}</div>
+            {% elif msg.bot.type == "image" %}
+            <div class="message bot-msg">
+                <img src="{{ url_for('static', filename=msg.bot.path) }}" class="chart-img">
+            </div>
+            {% endif %}
+            {% endif %}
             {% endfor %}
         </div>
 
@@ -233,4 +275,5 @@
     </div>
 
 </body>
+
 </html>

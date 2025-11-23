@@ -124,9 +124,9 @@ Context: {context}
 Question: {question}
 If user's question is type of greetings like ("hi","how are you","what you can do"),then answer this questions like ("Hi there! 👋 I’m your document assistant. You can upload PDFs or Word files and ask me anything about their content.")
 If the user's question is general (like "what is this document about", 
-"tell me about document", or similar), then **summarize** the main ideas 
+"tell me about document", or similar), then summarize the main ideas 
 of the document in 4–6 sentences.
-Provide a well-structured and comprehensive response in markdown format. Use bullet points, headings, and code blocks only where appropriate. 
+Provide a well-structured and comprehensive response in natural language. Use bullet points, headings, and code blocks only where appropriate. 
 Base your answer strictly on the provided CONTEXT and if the answer is not found in the CONTEXT, 
 reply with "I couldn't find the answer in the provided document.
         """

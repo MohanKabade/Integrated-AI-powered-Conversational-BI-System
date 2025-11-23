@@ -1,5 +1,6 @@
 import os
 import uuid
+import markdown
 from .updated_chatwithpdf import (
     load_and_chunk_documents,
     get_gemini_embeddings,
@@ -51,4 +52,5 @@ def answer_pdf_question(query, namespace):
     Always returns text.
     """
     response = run_rag_pipeline(query, namespace=namespace, index_name=INDEX_NAME)
-    return {"type": "text", "content": response}
+    nl_answer = markdown.markdown(response)
+    return {"type": "text", "content": nl_answer}
